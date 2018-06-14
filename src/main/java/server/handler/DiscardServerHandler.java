@@ -40,7 +40,9 @@ public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
         try {
             //在这里处理数据
             while (in.isReadable()){
-                System.out.println("【toString】:"+in.toString(CharsetUtil.UTF_8));
+                //使用Utf-8接收传入数据，全部作json字符串处理
+                String in_str = in.toString(CharsetUtil.UTF_8);
+                System.out.println(in_str);
             }
         }finally {
             //最后一定要显示的释放掉数据

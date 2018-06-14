@@ -34,6 +34,7 @@ public class ServerSet {
                          // 或者其对应的ChannelPipeline 来实现你的网络程序。
                          // 当你的程序变的复杂时，可能你会增加更多的处理类到 pipline 上，
                          // 然后提取这些匿名类到最顶层的类上。
+                         //todo 拆离ChannelInitializer为一个单独的类
                          @Override
                          protected void initChannel(SocketChannel socketChannel) throws Exception {
                              socketChannel.pipeline().addLast(new DiscardServerHandler());

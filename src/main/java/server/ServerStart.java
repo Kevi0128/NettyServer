@@ -13,12 +13,10 @@ public class ServerStart {
 
     public static void main(String[] args) {
         //首先，说个你好
-        System.out.println("Hello World!");
-        System.out.println("你好世界！");
         logger.info("############################系统开始启动##########################");
         logger.info("你好，世界");
         //调用服务器设置并启动
-        int port = 8080;
+        int port = 233;
         try {
             new ServerSet(port).run();
         }catch (Exception e){

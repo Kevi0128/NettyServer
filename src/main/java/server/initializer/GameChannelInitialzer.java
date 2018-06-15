@@ -3,8 +3,9 @@ package server.initializer;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
-import server.decoder.StringDecoder;
-import server.encoder.StringEncoder;
+import io.netty.handler.codec.string.StringDecoder;
+import io.netty.handler.codec.string.StringEncoder;
+import io.netty.util.CharsetUtil;
 import server.handler.DiscardServerHandler;
 
 // 这里的事件处理类经常会被用来处理一个最近的已经接收的 Channel。
@@ -15,8 +16,9 @@ import server.handler.DiscardServerHandler;
 // 然后提取这些匿名类到最顶层的类上。
 public class GameChannelInitialzer extends ChannelInitializer<SocketChannel> {
     //构建默认编码解码器
-    private static final StringDecoder DECODER = new StringDecoder();
-    private static final StringEncoder ENCODER = new StringEncoder();
+    //现使用Netty提供字符编码解码器
+    private static final StringDecoder DECODER = new StringDecoder(CharsetUtil.UTF_8);
+    private static final StringEncoder ENCODER = new StringEncoder(CharsetUtil.UTF_8);
     //获取事件处理Handler
     private static final DiscardServerHandler SERVER_HANDLER = new DiscardServerHandler();
 //    //放置连接
@@ -30,6 +32,8 @@ public class GameChannelInitialzer extends ChannelInitializer<SocketChannel> {
     public void initChannel(SocketChannel socketChannel) throws Exception {
         ChannelPipeline pipeline = socketChannel.pipeline();
 
+        pipeline.addLast(DECODER);
+        pipeline.addLast(ENCODER);
         pipeline.addLast(SERVER_HANDLER);
 
     }

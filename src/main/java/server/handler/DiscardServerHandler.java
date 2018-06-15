@@ -1,20 +1,34 @@
 package server.handler;
 
-import io.netty.buffer.ByteBuf;
+import com.alibaba.fastjson.JSONObject;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.util.CharsetUtil;
 import io.netty.util.ReferenceCountUtil;
+import io.netty.util.internal.StringUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 处理服务端 channel
  * 继承ChannelInboundHandlerAdapter，获得事件处理接口
  */
+@ChannelHandler.Sharable
 public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
 
+    private static final Logger logger = LoggerFactory.getLogger(DiscardServerHandler.class);
+
+    //该方法在连接被注册进连接池（EventLoop）后调用
     @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
-        super.channelRegistered(ctx);
+        logger.trace("新连接尝试注册中");
+        //发送你好信息
+        //todo 实现握手协议
+        ctx.writeAndFlush("hello");
+//        ctx.fireChannelRegistered();
     }
 
     @Override
@@ -24,7 +38,11 @@ public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        super.channelActive(ctx);
+        logger.info("连接激活，传送欢迎信息");
+        String welcome = "welcome kevi's NettyServer ";
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        welcome += "time:"+format.format(new Date());
+        ctx.writeAndFlush(welcome);
     }
 
     @Override
@@ -36,13 +54,18 @@ public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         //展示并丢弃接收到的数据
-        ByteBuf in = (ByteBuf) msg;
+        String in_str = (String) msg;
         try {
             //在这里处理数据
-            while (in.isReadable()){
+            if (!StringUtil.isNullOrEmpty(in_str)){
+                //Todo 直接按byte数组接受收数据，依据放置指令头分类别传送数据去处理
+                //todo Maybe先期还是使用JSON传输使用数据，使用标识区分目标接口，后期再构建数据格式
+
                 //使用Utf-8接收传入数据，全部作json字符串处理
-                String in_str = in.toString(CharsetUtil.UTF_8);
+                //todo 提取为单独的Class方法处理
                 System.out.println(in_str);
+                JSONObject object = JSONObject.parseObject(in_str);
+
             }
         }finally {
             //最后一定要显示的释放掉数据
@@ -71,11 +94,6 @@ public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
         //打印异常，并关闭
         cause.printStackTrace();
         ctx.close();
-    }
-
-    @Override
-    public boolean isSharable() {
-        return super.isSharable();
     }
 
     @Override

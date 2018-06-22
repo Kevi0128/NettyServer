@@ -23,8 +23,8 @@ public class ServerSet {
     }
 
     public void run() throws Exception{
-        //临时在这里启动
-        GameServer.getInstance().getSelectManager().init();
+//        //临时在这里启动
+//        GameServer.getInstance().getSelectManager().init();
 
 
         logger.info("启动Netty服务中");
@@ -49,7 +49,6 @@ public class ServerSet {
             workerGroup.shutdownGracefully();
             boosGroup.shutdownGracefully();
         }
-
     }
 
 }

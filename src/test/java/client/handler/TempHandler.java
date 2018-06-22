@@ -41,9 +41,11 @@ public class TempHandler extends ChannelInboundHandlerAdapter {
             //暂时假定无法接受json数据，就是服务器的初次连接欢迎信息
             //那么申请登录服务器
             JSONObject request = new JSONObject();
-            request.put("req",1);
-            request.put("name","kevi");
-            request.put("password","0128");
+            request.put("key",1);
+            JSONObject parm = new JSONObject();
+            parm.put("name","kevi");
+            parm.put("password","0128");
+            request.put("parm",parm);
             ctx.writeAndFlush(request.toJSONString());
         }finally {
             ReferenceCountUtil.release(msg);

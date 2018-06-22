@@ -1,5 +1,6 @@
 package server.handler;
 
+import business.select.SelectMain;
 import com.alibaba.fastjson.JSONObject;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -8,6 +9,8 @@ import io.netty.util.ReferenceCountUtil;
 import io.netty.util.internal.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import server.GameServer;
+import server.manager.SelectManager;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -62,10 +65,13 @@ public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
                 //todo Maybe先期还是使用JSON传输使用数据，使用标识区分目标接口，后期再构建数据格式
 
                 //使用Utf-8接收传入数据，全部作json字符串处理
-                //todo 提取为单独的Class方法处理
+                //todo 单独整理方法处理处理数据传入选择器
                 System.out.println(in_str);
                 JSONObject object = JSONObject.parseObject(in_str);
-
+                SelectMain select = GameServer.getInstance().getSelectManager().getSelectMain();
+                int key = object.getIntValue("key");
+                JSONObject parm = object.getJSONObject("parm");
+                select.JsonSelect(key,parm);
             }
         }finally {
             //最后一定要显示的释放掉数据

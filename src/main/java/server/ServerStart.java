@@ -15,6 +15,8 @@ public class ServerStart {
         //首先，说个你好
         logger.info("############################系统开始启动##########################");
         logger.info("你好，世界");
+        //初始服务器
+        GameServer.getInstance();
         //调用服务器设置并启动
         int port = 233;
         try {

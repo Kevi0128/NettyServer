@@ -7,6 +7,6 @@ public class LoginDeal extends RequestDeal {
 
     @Override
     public void requestDeal(JSONObject parms) {
-        super.requestDeal(parms);
+        System.out.println("【LoginDeal:】"+parms.toJSONString());
     }
 }

@@ -1,7 +1,7 @@
 package business.select.core;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 分辨json数据选择请求
@@ -12,8 +12,8 @@ public class RequestSelect {
     private final Map<Object, Object> select_map; //使用Map装入已初始化请求选择
 
     public RequestSelect(){
-        selects = new HashMap<Object, Class<?>>();
-        select_map = new HashMap<Object, Object>();
+        selects = new ConcurrentHashMap<Object, Class<?>>();
+        select_map = new ConcurrentHashMap<Object, Object>();
     }
 
     /**

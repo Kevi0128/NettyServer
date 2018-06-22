@@ -8,7 +8,9 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import server.GameServer;
 import server.initializer.GameChannelInitialzer;
+import server.manager.SelectManager;
 
 public class ServerSet {
 
@@ -21,6 +23,10 @@ public class ServerSet {
     }
 
     public void run() throws Exception{
+        //临时在这里启动
+        GameServer.getInstance().getSelectManager().init();
+
+
         logger.info("启动Netty服务中");
         //构造两个线程池，boss接收进来的连接，worker则处理已接收的连接
         EventLoopGroup boosGroup = new NioEventLoopGroup();

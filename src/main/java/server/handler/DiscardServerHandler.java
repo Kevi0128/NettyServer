@@ -1,5 +1,6 @@
 package server.handler;
 
+import business.Entity.Session;
 import business.select.SelectMain;
 import com.alibaba.fastjson.JSONObject;
 import io.netty.channel.ChannelHandler;
@@ -30,7 +31,11 @@ public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
         //发送你好信息
         //todo 实现握手协议
         ctx.writeAndFlush("hello");
-        GameServer.getInstance().getChannelManager().saveChannel(ctx.channel());
+        //创建session
+        Session session = new Session();
+        session.init();
+        session.setChannel(ctx.channel());
+        GameServer.getInstance().getSessionManager().addSession(session);
     }
 
     @Override

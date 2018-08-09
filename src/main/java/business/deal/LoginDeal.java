@@ -15,9 +15,10 @@ public class LoginDeal extends RequestDeal {
     public void requestDeal(JSONObject parms) {
         logger.info("【LoginDeal:】{}",parms.toJSONString());
         String channel_id = parms.getString("ChannelID");
-        Channel channel = GameServer.getInstance().getChannelManager().findChannel(channel_id);
+        Channel channel = GameServer.getInstance().getSessionManager().getSessionByCannelID(channel_id).getChannel();
         JSONObject result = new JSONObject();
         result.put("msg","登录成功");
         channel.writeAndFlush(result.toJSONString());
     }
+
 }

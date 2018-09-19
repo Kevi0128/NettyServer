@@ -40,6 +40,7 @@ public class TempHandler extends ChannelInboundHandlerAdapter {
 //            e.printStackTrace();
             //暂时假定无法接受json数据，就是服务器的初次连接欢迎信息
             //那么申请登录服务器
+            System.out.println("发送登录信息");
             JSONObject request = new JSONObject();
             request.put("key",1);
             JSONObject parm = new JSONObject();

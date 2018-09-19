@@ -1,7 +1,7 @@
 package server.manager;
 
 
-import business.Entity.Session;
+import business.entity.Session;
 
 import java.util.HashMap;
 import java.util.Map;

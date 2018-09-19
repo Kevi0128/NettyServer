@@ -1,4 +1,4 @@
-package business.Entity;
+package business.entity;
 
 import io.netty.channel.Channel;
 

@@ -1,5 +1,6 @@
 package server;
 
+import business.tool.MybatisFactory;
 import server.manager.ChannelManager;
 import server.manager.SelectManager;
 import server.manager.SessionManager;
@@ -12,6 +13,7 @@ public final class GameServer {
     private static GameServer _instance = null;
     private SelectManager selectManager;
     private SessionManager sessionManager;
+    private MybatisFactory factoryManager;
 
     public static GameServer getInstance(){
         if (_instance == null){
@@ -25,6 +27,9 @@ public final class GameServer {
        this.selectManager = selectManager;
        SessionManager sessionManager = new SessionManager();
        this.sessionManager = sessionManager;
+       MybatisFactory mybatisFactory = new MybatisFactory();
+       mybatisFactory.init();
+       this.factoryManager = mybatisFactory;
     }
 
     public static void start(){

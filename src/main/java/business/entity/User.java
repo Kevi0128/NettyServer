@@ -1,4 +1,4 @@
-package business.Entity;
+package business.entity;
 
 /**
  * 构建用户实体
@@ -12,7 +12,7 @@ public class User {
 
     private String loginName;
 
-    private String passowrd;
+    private String password;
 
     public int getId() {
         return id;
@@ -38,11 +38,22 @@ public class User {
         this.loginName = loginName;
     }
 
-    public String getPassowrd() {
-        return passowrd;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPassowrd(String passowrd) {
-        this.passowrd = passowrd;
+    public void setPassword(String passowrd) {
+        this.password = password;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", loginName='" + loginName + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
+
 }

@@ -70,12 +70,20 @@ public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
 
                 //使用Utf-8接收传入数据，全部作json字符串处理
                 //todo 单独整理方法处理处理数据传入选择器
-                JSONObject object = JSONObject.parseObject(in_str);
-                SelectMain select = GameServer.getInstance().getSelectManager().getSelectMain();
-                int key = object.getIntValue("key");
-                JSONObject parm = object.getJSONObject("parm");
-                parm.put("ChannelID",ctx.channel().id().asLongText());
-                select.JsonSelect(key,parm);
+                //简单判定是不是Http请求
+                if (in_str.indexOf("HTTP") > 0){
+                    //判定为Http请求
+                    logger.info("http请求:{}",in_str);
+
+                }else {
+                    //
+                    JSONObject object = JSONObject.parseObject(in_str);
+                    SelectMain select = GameServer.getInstance().getSelectManager().getSelectMain();
+                    int key = object.getIntValue("key");
+                    JSONObject parm = object.getJSONObject("parm");
+                    parm.put("ChannelID",ctx.channel().id().asLongText());
+                    select.JsonSelect(key,parm);
+                }
             }
         }finally {
             //最后一定要显示的释放掉数据
